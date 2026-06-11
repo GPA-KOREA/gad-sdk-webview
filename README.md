@@ -22,16 +22,13 @@ GAD 오퍼월 **웹뷰 SDK**. 애디슨 `Adison.Ofw` 와 **동형으로 동작**
 
 광고 조회·랜딩·설치감지·적립·고객센터는 **모두 네이티브 SDK** 가 처리한다. 웹은 (1) 광고 데이터 요청 (2) 커스텀 HTML 목록 렌더 (3) 노출/클릭 전달만 한다.
 
+> 📖 매체(퍼블리셔) 연동 절차는 **[GUIDE.md](GUIDE.md)** 참고 (네이티브 의존성 버전 포함).
+
 ## 설치
 
 ```html
 <!-- CDN (UMD, 전역 Gad) -->
 <script src="https://cdn.gpakorea.com/gad/ofw-sdk/0.1.0/gad-ofw-sdk.umd.js"></script>
-```
-
-```bash
-# npm (ESM)
-npm install gad-offerwall-webview-sdk
 ```
 
 ## 빠른 시작
