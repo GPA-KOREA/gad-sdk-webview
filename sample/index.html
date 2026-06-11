@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>GAD 오퍼월 — 퍼블리셔 커스텀 목록 샘플</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    /* 디자인 토큰 — 네이티브(syrup) 리스트 톤 (gad_item_advertisement.xml / colors.xml 기준) */
+    :root {
+      --orange: #F15A29;   /* 적립 pill */
+      --text:   #1A1A1A;   /* 제목 */
+      --sub:    #8A8F97;   /* #타입 / 보조 텍스트 */
+      --line:   #EEF0F2;   /* 구분선 / 아이콘 테두리 */
+      --iconbg: #F1F3F5;   /* 아이콘 배경 */
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--text);
+      font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 상단 바 (퍼블리셔 영역) */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+      background: var(--orange); color: #fff;
+    }
+    header h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -0.025em; }
+    header button {
+      padding: 6px 12px; border: 0; border-radius: 8px;
+      background: rgba(255, 255, 255, .2); color: #fff;
+      font-size: 13px; font-weight: 600;
+    }
+
+    /* 광고 목록 */
+    .list { padding: 0; }
+    .empty { padding: 40px; text-align: center; color: var(--sub); }
+
+    /* 카드: 원형 아이콘 + #타입/제목 + 주황 알약 pill + 하단 구분선 */
+    .card {
+      display: flex; align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .card:active { background: #fafbfc; }
+    .card .icon {
+      flex: 0 0 auto;
+      width: 46px; height: 46px;
+      border-radius: 50%; object-fit: cover;
+      background: var(--iconbg); border: 1px solid var(--line);
+    }
+    .card .body { flex: 1 1 auto; min-width: 0; margin: 0 12px; }
+    .card .type { font-size: 11px; color: var(--sub); letter-spacing: -0.015em; line-height: 1.2; }
+    .card .title {
+      margin-top: 2px;
+      font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: -0.025em;
+      line-height: 1.3;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .card .pill {
+      flex: 0 0 auto;
+      min-width: 60px; padding: 7px 12px;
+      border-radius: 8px; background: var(--orange);
+      color: #fff; font-size: 12px; font-weight: 700; letter-spacing: -0.025em;
+      text-align: center; font-variant-numeric: tabular-nums;
+    }
+
+    /* 더보기 → 네이티브 풀 오퍼월 */
+    .more {
+      display: block; width: calc(100% - 40px); margin: 16px 20px 24px;
+      padding: 14px; border: 1px solid var(--line); border-radius: 10px;
+      background: #fff; color: var(--sub);
+      font-size: 14px; font-weight: 600; letter-spacing: -0.025em;
+    }
+    .more:active { background: #f6f7f9; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>리워드 받기</h1>
+    <button id="help">문의하기</button>
+  </header>
+
+  <div id="list" class="list"><div class="empty">불러오는 중…</div></div>
+
+  <!-- 빌드 산출물(UMD). 전역 `Gad.Ofw` 노출. -->
+  <script src="../dist/gad-ofw-sdk.umd.js"></script>
+  <script>
+    'use strict';
+
+    // ── Gad.Ofw 연동 샘플 ──────────────────────────────────────────────
+    // 이 페이지는 GAD 네이티브 WebView 안에서 로드된다.
+    // mediaKey/userId 는 호스트 앱의 Gad.init() 이 이미 보유하므로 여기선 인자가 없다.
+    // 일반 브라우저(브리지 없음)에서는 loadAds 가 reject 된다(WebView 전용).
+
+    var Ofw = window.Gad.Ofw;
+    var listEl = document.getElementById('list');
+
+    var TYPE_NAMES = ['참여형', '설치형', '실행형', '미션형', '참여형', '쇼핑형'];
+    function typeName(type) { return TYPE_NAMES[type] || '참여형'; }
+
+    // 광고 1건 → 카드 엘리먼트 (textContent 사용 → XSS 안전)
+    function buildCard(ad) {
+      var card = document.createElement('div');
+      card.className = 'card';
+
+      var icon = document.createElement('img');
+      icon.className = 'icon';
+      icon.src = ad.icon || '';
+      icon.alt = '';
+
+      var type = document.createElement('div');
+      type.className = 'type';
+      type.textContent = '#' + typeName(ad.type);
+
+      var title = document.createElement('div');
+      title.className = 'title';
+      title.textContent = ad.title;
+
+      var body = document.createElement('div');
+      body.className = 'body';
+      body.append(type, title);
+
+      var pill = document.createElement('div');
+      pill.className = 'pill';
+      // 적립 표기: "포인트 단위" (예: "300 캐시"). 네이티브 리스트와 동일 포맷.
+      pill.textContent = ad.point + (ad.unit ? ' ' + ad.unit : '');
+
+      card.append(icon, body, pill);
+      return card;
+    }
+
+    // 리스트 하단 "더보기" → 네이티브 풀 오퍼월
+    function buildMoreButton() {
+      var more = document.createElement('button');
+      more.className = 'more';
+      more.textContent = '더보기';
+      more.addEventListener('click', function () { Ofw.showOfferwall(); });
+      return more;
+    }
+
+    function showMessage(text) {
+      listEl.textContent = '';
+      var div = document.createElement('div');
+      div.className = 'empty';
+      div.textContent = text;
+      listEl.appendChild(div);
+    }
+
+    // 광고 목록 렌더
+    function render(ads) {
+      if (!ads.length) { showMessage('표시할 광고가 없습니다.'); return; }
+      listEl.textContent = '';
+      ads.forEach(function (ad) {
+        var card = buildCard(ad);
+        listEl.appendChild(card);
+        Ofw.registerNativeAd(ad, card); // 클릭 → 네이티브 상세/참여
+        Ofw.impression(ad.id);          // 노출 트래킹
+      });
+      listEl.appendChild(buildMoreButton());
+    }
+
+    // ── 실행 ───────────────────────────────────────────────────────────
+    Ofw.init();
+    Ofw.loadAds(6) // 인자 없으면 전체, 숫자 주면 그 개수만큼
+      .then(render)
+      .catch(function (e) { showMessage('오류: ' + e.message); });
+
+    document.getElementById('help').addEventListener('click', function () { Ofw.showHelp(); });
+  </script>
+</body>
+</html>
