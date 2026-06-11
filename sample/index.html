@@ -6,7 +6,7 @@
   <title>GAD 오퍼월 — 퍼블리셔 커스텀 목록 샘플</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
-    /* 디자인 토큰 — 네이티브(syrup) 리스트 톤 (gad_item_advertisement.xml / colors.xml 기준) */
+    /* 디자인 토큰 — 네이티브 SDK 리스트 톤 기준 */
     :root {
       --orange: #F15A29;   /* 적립 pill */
       --text:   #1A1A1A;   /* 제목 */
@@ -160,7 +160,7 @@
         var card = buildCard(ad);
         listEl.appendChild(card);
         Ofw.registerNativeAd(ad, card); // 클릭 → 네이티브 상세/참여
-        Ofw.impression(ad.id);          // 노출 트래킹
+        Ofw.impression(ad);             // 노출 트래킹
       });
       listEl.appendChild(buildMoreButton());
     }

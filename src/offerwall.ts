@@ -1,7 +1,7 @@
 import { asyncCall, fireCall, hasBridge } from './bridge';
 import type { GadAd } from './types';
 
-const SDK_VERSION = '0.1.0';
+const SDK_VERSION = '0.1.1';
 
 /**
  * GAD 오퍼월 웹뷰 SDK.
@@ -79,10 +79,9 @@ export class Offerwall {
   /** 광고 상세/참여 진입. ad 지정 시 해당 광고, 미지정 시 네이티브 풀 오퍼월. */
   showOfferwall(ad?: GadAd): void {
     if (ad != null) {
-      const adId = String(ad.id);
       fireCall({
-        android: (b) => b.showNativeAd(adId),
-        ios: { command: 'showOfferwallDetail', payload: { ad_id: ad.id } },
+        android: (b) => b.showNativeAd(ad.key),
+        ios: { command: 'showOfferwallDetail', payload: { key: ad.key } },
         fallback: () => console.warn(`[Gad.Ofw] showOfferwall(${ad.title}) — 네이티브 브리지가 필요합니다.`),
       });
       return;
@@ -103,11 +102,11 @@ export class Offerwall {
     });
   }
 
-  /** 광고 노출 트래킹. (목록에서 광고가 화면에 보일 때 호출) */
-  impression(adId: number | string): void {
+  /** 광고 노출 트래킹. loadAds 로 받은 광고 객체를 그대로 전달. (목록에서 광고가 화면에 보일 때 호출) */
+  impression(ad: GadAd): void {
     fireCall({
-      android: (b) => b.impression(String(adId)),
-      ios: { command: 'impression', payload: { message: { ad_id: adId } } },
+      android: (b) => b.impression(ad.key),
+      ios: { command: 'impression', payload: { key: ad.key } },
     });
   }
 

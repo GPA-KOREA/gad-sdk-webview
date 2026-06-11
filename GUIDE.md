@@ -34,8 +34,7 @@ repositories {
 
 // app/build.gradle
 dependencies {
-    implementation 'com.github.koreagpa-dev:gad:0.7.1'          // 기본
-    // implementation 'com.github.koreagpa-dev:gad:syrup-0.8.0-rc.3'  // 시럽 디자인
+    implementation 'com.github.koreagpa-dev:gad:0.7.2'
 }
 ```
 
@@ -44,8 +43,7 @@ dependencies {
 Xcode → File ▸ Add Package Dependencies…
 
 ```
-https://github.com/GPA-KOREA/gad-ios-sdk          (기본, 0.1.7+)
-https://github.com/GPA-KOREA/gad-ios-sdk-syrup    (시럽 디자인, 0.1.2+)
+https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.8+)
 ```
 
 ---
@@ -77,7 +75,7 @@ Gad.showWebOfferwall(from: self, url: "https://your-domain.com/offerwall.html")
 매체가 직접 호스팅합니다. JS SDK 를 로드하고 목록을 렌더하세요.
 
 ```html
-<script src="https://cdn.gpakorea.com/gad/ofw-sdk/0.1.0/gad-ofw-sdk.umd.js"></script>
+<script src="https://cdn.gpakorea.com/gad/ofw-sdk/0.1.1/gad-ofw-sdk.umd.js"></script>
 <script>
   Gad.Ofw.init();
 
@@ -86,7 +84,7 @@ Gad.showWebOfferwall(from: self, url: "https://your-domain.com/offerwall.html")
     ads.forEach(function (ad) {
       const card = renderMyCard(ad);        // 매체 커스텀 UI
       Gad.Ofw.registerNativeAd(ad, card);   // 클릭 → 네이티브 상세/참여
-      Gad.Ofw.impression(ad.id);            // 노출 트래킹
+      Gad.Ofw.impression(ad);               // 노출 트래킹
     });
   });
 
@@ -104,8 +102,7 @@ GAD API 문서의 필드명을 그대로 따릅니다.
 
 | 필드 | 타입 | 설명 |
 |---|---|---|
-| `id` | string | 광고 ID (`impression` 에 사용) |
-| `key` | string | 광고키 (참여/적립 — 네이티브가 사용) |
+| `key` | string | 광고키 — 광고 식별자 (상세 진입/노출 트래킹) |
 | `type` | number | 0 참여 / 1 설치 / 2 실행 / 3 미션 / 4 액션 / 5 CPS |
 | `title` | string | 광고명 |
 | `point` | number | 적립 포인트 |
@@ -119,7 +116,7 @@ GAD API 문서의 필드명을 그대로 따릅니다.
 | `Gad.Ofw.init()` | 초기화 (인자 없음 — mediaKey/userId 는 네이티브가 보유) |
 | `Gad.Ofw.loadAds(size?)` | 광고 목록. 생략/0 = 전체 |
 | `Gad.Ofw.registerNativeAd(ad, el)` | 요소 클릭 → 네이티브 상세 진입 바인딩 |
-| `Gad.Ofw.impression(adId)` | 노출 트래킹 |
+| `Gad.Ofw.impression(ad)` | 노출 트래킹 |
 | `Gad.Ofw.showOfferwall(ad?)` | ad 있으면 상세, 없으면 네이티브 풀 오퍼월 |
 | `Gad.Ofw.showHelp()` | 고객센터 |
 | `Gad.Ofw.setUid(uid)` | 사용자 식별자 갱신 (웹 로그인 후) |

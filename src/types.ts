@@ -1,9 +1,7 @@
 /** 광고 객체 — loadAds 결과. GAD API(advertisement list) 필드명을 그대로 따른다.
  *  퍼블리셔는 이 데이터로 자기 HTML 목록을 직접 렌더한다. */
 export interface GadAd {
-  /** 광고 ID. 노출 트래킹(impression)에 사용. */
-  id: string;
-  /** 광고키. 참여/적립 시 네이티브가 사용. */
+  /** 광고키 — 광고 식별자 (상세 진입/노출 트래킹에 사용). */
   key: string;
   /** 광고 타입 (0 참여 / 1 설치 / 2 실행 / 3 미션 / 4 액션 / 5 CPS). */
   type: number;

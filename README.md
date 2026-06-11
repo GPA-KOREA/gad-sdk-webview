@@ -28,7 +28,7 @@ GAD 오퍼월 **웹뷰 SDK**. 매체가 자체 웹페이지로 오퍼월 목록 
 
 ```html
 <!-- CDN (UMD, 전역 Gad) -->
-<script src="https://cdn.gpakorea.com/gad/ofw-sdk/0.1.0/gad-ofw-sdk.umd.js"></script>
+<script src="https://cdn.gpakorea.com/gad/ofw-sdk/0.1.1/gad-ofw-sdk.umd.js"></script>
 ```
 
 ## 빠른 시작
@@ -42,7 +42,7 @@ const ads = await Gad.Ofw.loadAds();
 ads.forEach((ad) => {
   const el = renderMyCard(ad);          // 퍼블리셔 커스텀 UI
   Gad.Ofw.registerNativeAd(ad, el);     // 클릭 → 네이티브 상세
-  Gad.Ofw.impression(ad.id);            // 노출 트래킹
+  Gad.Ofw.impression(ad);               // 노출 트래킹
 });
 
 // 3. 부가 진입
@@ -58,7 +58,7 @@ Gad.Ofw.setUid('USER_ID'); // 사용자 식별자 바인딩
 | `init()` | 초기화 (unload 시 캐시 정리 리스너 등록) | void |
 | `loadAds(size?)` | 광고 목록. 생략/0 = 전체, 양수 = 그 개수 | `Promise<GadAd[]>` |
 | `registerNativeAd(ad, el)` | 클릭 → `showOfferwall(ad)` 바인딩 | void |
-| `impression(adId)` | 노출 트래킹 | void |
+| `impression(ad)` | 노출 트래킹 | void |
 | `showOfferwall(ad?)` | ad 있으면 상세, 없으면 풀 오퍼월 | void |
 | `showHelp()` | 고객센터 | void |
 | `setUid(uid)` | 사용자 식별자 바인딩 | void |
@@ -73,8 +73,7 @@ GAD API(advertisement list) 필드명을 그대로 따릅니다.
 
 ```ts
 interface GadAd {
-  id: string;        // 광고 ID (노출 트래킹 impression 용)
-  key: string;       // 광고키 (참여/적립)
+  key: string;       // 광고키 — 광고 식별자 (상세 진입/노출 트래킹)
   type: number;      // 0 참여 / 1 설치 / 2 실행 / 3 미션 / 4 액션 / 5 CPS
   title: string;     // 광고명
   point: number;     // 적립 포인트 (내부 수익 save_point 는 절대 미포함)
@@ -87,7 +86,7 @@ interface GadAd {
 
 - **Android**: `webView.addJavascriptInterface(bridge, "GadOfwBridge")`
   - 비동기: `loadAds(handle, size)` / `availableReward(handle)` / `getSdkVersion(handle)` + `runAsyncResult(handle): String`
-  - fire-and-forget: `setUid(uid)` / `showNativeAd(adId)` / `showOfferwall()` / `showHelp()` / `impression(adId)` / `clearCache()`
+  - fire-and-forget: `setUid(uid)` / `showNativeAd(adKey)` / `showOfferwall()` / `showHelp()` / `impression(adKey)` / `clearCache()`
   - 비동기 완료 시 네이티브 → 웹: `evaluateJavascript("window.__gadOfwAndroidResult('<handle>', <true|false>)")` 호출 후 JS 가 `runAsyncResult(handle)` 로 결과(JSON 문자열) 회수.
 - **iOS**: `WKScriptMessageHandler` name `"GadOfwBridge"`
   - `postMessage({command, id?, ...})` 수신. 비동기 완료 시 `evaluateJavaScript("window.__gadOfwIOSResult('<handle>', '<data>', '<error>')")` 호출.

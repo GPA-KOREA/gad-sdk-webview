@@ -20,10 +20,10 @@ export interface GadAndroidBridge {
   runAsyncResult(handle: string): string;
   // fire-and-forget
   setUid(uid: string): void;
-  showNativeAd(adId: string): void;
+  showNativeAd(adKey: string): void;
   showOfferwall(): void;
   showHelp(): void;
-  impression(adId: string): void;
+  impression(adKey: string): void;
   clearCache(): void;
 }
 

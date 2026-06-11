@@ -1,6 +1,6 @@
 {
   "name": "gad-offerwall-webview-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GAD Offerwall WebView SDK (Gad.Ofw) — 네이티브 WebView 브리지 래퍼.",
   "type": "module",
   "main": "./dist/gad-ofw-sdk.umd.js",
