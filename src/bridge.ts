@@ -53,7 +53,7 @@ function toError(e: unknown): Error {
   return e instanceof Error ? e : new Error(String(e));
 }
 
-/** 네이티브 → 웹 결과 디스패처를 1회만 설치 (애디슨은 매 호출마다 글로벌을 덮어써 경합 위험 — 여기선 안정적인 단일 디스패처). */
+/** 네이티브 → 웹 결과 디스패처를 1회만 설치 — 호출마다 글로벌 콜백을 덮어쓰면 동시 호출 시 경합하므로 단일 디스패처로 고정. */
 function installDispatchers(): void {
   if (installed) return;
   installed = true;

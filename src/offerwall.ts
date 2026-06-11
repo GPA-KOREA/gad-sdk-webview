@@ -4,7 +4,7 @@ import type { GadAd } from './types';
 const SDK_VERSION = '0.1.0';
 
 /**
- * GAD 오퍼월 웹뷰 SDK. 애디슨 `Adison.Ofw` 와 동형.
+ * GAD 오퍼월 웹뷰 SDK.
  *
  * **동작 모델**: 이 JS SDK 는 로직을 거의 갖지 않는 "네이티브 브리지 래퍼"다.
  * 실제 광고 조회·랜딩·설치감지·적립·고객센터는 모두 GAD 네이티브 SDK 가 처리하고,

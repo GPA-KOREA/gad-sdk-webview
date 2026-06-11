@@ -1,6 +1,6 @@
 # GAD Offerwall WebView SDK (`Gad.Ofw`)
 
-GAD 오퍼월 **웹뷰 SDK**. 애디슨 `Adison.Ofw` 와 **동형으로 동작**한다.
+GAD 오퍼월 **웹뷰 SDK**. 매체가 자체 웹페이지로 오퍼월 목록 UI 를 구성할 수 있게 하는 네이티브 브리지 래퍼다.
 
 > ⚠️ 이 SDK 는 **네이티브 앱의 WebView 안에서만** 동작한다. GAD **네이티브 SDK**(Android `client/gad`, iOS `client/gad-ios`)가 선행 연동돼 있어야 한다. 브리지가 없는 일반 브라우저에서는 `loadAds` 등이 명확히 reject 된다 (WebView 전용).
 
