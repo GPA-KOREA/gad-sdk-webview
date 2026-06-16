@@ -43,30 +43,59 @@ dependencies {
 Xcode → File ▸ Add Package Dependencies…
 
 ```
-https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.8+)
+https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.9+)
 ```
 
 ---
 
-## 2. 앱에서 웹 오퍼월 열기
+## 2. 앱에서 웹 오퍼월 진입
 
 - `mediaKey`: GAD 오퍼월에서 발급받은 매체 키
 - `userId`: 매체의 고유 사용자 식별자 (최대 36자)
 - 오퍼월 페이지 URL 은 **반드시 https** (http 는 OS 보안 정책에 차단됨)
+- `mediaKey`/`userId` 는 `Gad.init`(초기화) 이 보유합니다. 웹페이지로 다시 넘길 필요 없습니다 (그래서 JS `Gad.Ofw.init()` 은 인자가 없습니다).
 
-### Android (Kotlin)
+진입 방식은 두 가지입니다. 목적에 맞는 쪽을 고르세요.
+
+| 방식 | 화면 | 용도 |
+|---|---|---|
+| **A. 풀 오퍼월 컨테이너** | SDK 가 전체 화면 WebView 를 띄움 | 오퍼월 페이지 자체를 하나의 화면으로 노출 |
+| **B. 매체 WebView 에 부착** | 매체가 가진 WebView 를 그대로 사용 | **매체 자체 화면 일부 지면**에 캠페인 몇 개를 끼워 넣기 |
+
+> 두 방식 모두 브릿지 주입은 SDK 가 처리하므로, 매체가 별도 브릿지 코드를 작성할 필요는 없습니다.
+
+### 방식 A — 풀 오퍼월 컨테이너 (`showWebOfferwall`)
+
+SDK 가 풀스크린 WebView 를 띄우고 브릿지를 자동 주입합니다.
 
 ```kotlin
+// Android
 Gad.init(this, "YOUR_MEDIA_KEY", "USER_ID")
 Gad.showWebOfferwall(this, "https://your-domain.com/offerwall.html")
 ```
-
-### iOS (Swift)
-
 ```swift
+// iOS
 Gad.initialize(mediaKey: "YOUR_MEDIA_KEY", userId: "USER_ID")
 Gad.showWebOfferwall(from: self, url: "https://your-domain.com/offerwall.html")
 ```
+
+### 방식 B — 매체 자체 WebView 에 부착 (`attachOfwBridge`)
+
+매체가 직접 관리하는 WebView 에 브릿지만 부착합니다. 풀스크린 전환 없이 **자체 화면 일부 지면**에 캠페인을 노출할 때 사용합니다. (`Gad.init` 으로 초기화돼 있어야 하며, WebView 의 JavaScript 가 활성화돼 있어야 합니다.)
+
+```kotlin
+// Android — 매체가 가진 WebView 에 부착
+import com.gad.sdk.bridge.GadOfwBridge
+
+myWebView.settings.javaScriptEnabled = true
+myWebView.addJavascriptInterface(GadOfwBridge(activity, myWebView), "GadOfwBridge")
+```
+```swift
+// iOS — 매체가 가진 WKWebView 에 부착 (0.1.9+)
+Gad.attachOfwBridge(to: myWebView, host: self)
+```
+
+부착 후, 그 WebView 가 로드한 페이지에서 아래 3절처럼 `Gad.Ofw` 로 캠페인을 받아 원하는 자리에 렌더하면 됩니다. 일부 지면용으로 개수를 제한하려면 `loadAds(3)` 처럼 개수를 넘기세요.
 
 ---
 
