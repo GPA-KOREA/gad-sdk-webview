@@ -43,7 +43,7 @@ dependencies {
 Xcode → File ▸ Add Package Dependencies…
 
 ```
-https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.9+)
+https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.10+)
 ```
 
 ---
@@ -73,6 +73,7 @@ SDK 가 풀스크린 WebView 를 띄우고 브릿지를 자동 주입합니다.
 Gad.init(this, "YOUR_MEDIA_KEY", "USER_ID")
 Gad.showWebOfferwall(this, "https://your-domain.com/offerwall.html")
 ```
+
 ```swift
 // iOS
 Gad.initialize(mediaKey: "YOUR_MEDIA_KEY", userId: "USER_ID")
@@ -90,8 +91,9 @@ import com.gad.sdk.bridge.GadOfwBridge
 myWebView.settings.javaScriptEnabled = true
 myWebView.addJavascriptInterface(GadOfwBridge(activity, myWebView), "GadOfwBridge")
 ```
+
 ```swift
-// iOS — 매체가 가진 WKWebView 에 부착 (0.1.9+)
+// iOS — 매체가 가진 WKWebView 에 부착 (0.1.10+)
 Gad.attachOfwBridge(to: myWebView, host: self)
 ```
 
