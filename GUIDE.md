@@ -34,7 +34,7 @@ repositories {
 
 // app/build.gradle
 dependencies {
-    implementation 'com.github.koreagpa-dev:gad:0.7.2'
+    implementation 'com.github.koreagpa-dev:gad:0.7.3'
 }
 ```
 
@@ -85,11 +85,8 @@ Gad.showWebOfferwall(from: self, url: "https://your-domain.com/offerwall.html")
 매체가 직접 관리하는 WebView 에 브릿지만 부착합니다. 풀스크린 전환 없이 **자체 화면 일부 지면**에 캠페인을 노출할 때 사용합니다. (`Gad.init` 으로 초기화돼 있어야 하며, WebView 의 JavaScript 가 활성화돼 있어야 합니다.)
 
 ```kotlin
-// Android — 매체가 가진 WebView 에 부착
-import com.gad.sdk.bridge.GadOfwBridge
-
-myWebView.settings.javaScriptEnabled = true
-myWebView.addJavascriptInterface(GadOfwBridge(activity, myWebView), "GadOfwBridge")
+// Android — 매체가 가진 WebView 에 부착 (0.7.3+)
+Gad.attachOfwBridge(activity, myWebView)
 ```
 
 ```swift
