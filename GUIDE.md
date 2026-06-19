@@ -34,7 +34,7 @@ repositories {
 
 // app/build.gradle
 dependencies {
-    implementation 'com.github.koreagpa-dev:gad:0.7.3'
+    implementation 'com.github.koreagpa-dev:gad:0.7.4'
 }
 ```
 
