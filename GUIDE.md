@@ -51,7 +51,7 @@ https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.10+)
 ## 2. 앱에서 웹 오퍼월 진입
 
 - `mediaKey`: GAD 오퍼월에서 발급받은 매체 키
-- `userId`: 매체의 고유 사용자 식별자 (최대 36자)
+- `userId`: 매체의 고유 사용자 식별자 (최대 48자)
 - 오퍼월 페이지 URL 은 **반드시 https** (http 는 OS 보안 정책에 차단됨)
 - `mediaKey`/`userId` 는 `Gad.init`(초기화) 이 보유합니다. 웹페이지로 다시 넘길 필요 없습니다 (그래서 JS `Gad.Ofw.init()` 은 인자가 없습니다).
 
