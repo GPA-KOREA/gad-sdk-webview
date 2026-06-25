@@ -34,7 +34,7 @@ repositories {
 
 // app/build.gradle
 dependencies {
-    implementation 'com.github.koreagpa-dev:gad:0.7.4'
+    implementation 'com.github.koreagpa-dev:gad:0.7.5'
 }
 ```
 
@@ -43,7 +43,7 @@ dependencies {
 Xcode → File ▸ Add Package Dependencies…
 
 ```
-https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.10+)
+https://github.com/GPA-KOREA/gad-ios-sdk    (0.1.11+)
 ```
 
 ---
@@ -90,7 +90,7 @@ Gad.attachOfwBridge(activity, myWebView)
 ```
 
 ```swift
-// iOS — 매체가 가진 WKWebView 에 부착 (0.1.10+)
+// iOS — 매체가 가진 WKWebView 에 부착 (0.1.11+)
 Gad.attachOfwBridge(to: myWebView, host: self)
 ```
 
